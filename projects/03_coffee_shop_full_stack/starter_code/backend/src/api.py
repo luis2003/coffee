@@ -52,6 +52,8 @@ def get_drinks():
     drinks_list = {}
     for drink in drink3:
         drinks_list[drink.id] = {'id':drink.id,'title':drink.title,'recipe':drink.recipe}
+        #drinks_list.append(drink.short())
+    print(drinks_list)
     return jsonify({
         'success' : True,
         'drinks' : drinks_list
