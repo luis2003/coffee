@@ -17,7 +17,7 @@ CORS(app)
 !! NOTE THIS MUST BE UNCOMMENTED ON FIRST RUN
 !! Running this funciton will add one
 '''
-# db_drop_and_create_all()
+db_drop_and_create_all()
 
 # ROUTES
 '''
@@ -30,6 +30,32 @@ CORS(app)
 '''
 
 
+@app.route('/drinks', methods=['GET'])
+def get_drinks():
+    # TESTING ONLY: delete all data and recreate the model
+    db_drop_and_create_all()
+    # TESTING ONLY: Print out how many drink in current database
+    drink1 = Drink.query.all()
+    print('before insert count:')
+    print(len(drink1))
+    # TESTING ONLY: Insert 5 fake drink for testing
+    for x in range(5):
+        req_title = 'Coffee Test' + str(x)  #db model said title must be unique
+        req_recipe = 'No sugar'
+        drink2 = Drink(title=req_title, recipe=req_recipe)
+        drink2.insert()
+    # TESTING ONLY: Print out how many drink after inserting a new item
+    drink3 = Drink.query.all()
+    print('after insert count:')
+    print(len(drink3))
+    # TESTING ONLY: see the browser at http://127.0.0.1:5000/drinks for result
+    drinks_list = {}
+    for drink in drink3:
+        drinks_list[drink.id] = {'id':drink.id,'title':drink.title,'recipe':drink.recipe}
+    return jsonify({
+        'success' : True,
+        'drinks' : drinks_list
+    })
 '''
 @TODO implement endpoint
     GET /drinks-detail
