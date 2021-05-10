@@ -38,21 +38,22 @@ def get_drinks():
     drink1 = Drink.query.all()
     print('before insert count:')
     print(len(drink1))
-    # TESTING ONLY: Insert 5 fake drink for testing
+    '''# TESTING ONLY: Insert 5 fake drink for testing
     for x in range(5):
         req_title = 'Coffee Test' + str(x)  #db model said title must be unique
         req_recipe = 'No sugar'
         drink2 = Drink(title=req_title, recipe=req_recipe)
-        drink2.insert()
+        drink2.insert()'''
     # TESTING ONLY: Print out how many drink after inserting a new item
     drink3 = Drink.query.all()
     print('after insert count:')
     print(len(drink3))
     # TESTING ONLY: see the browser at http://127.0.0.1:5000/drinks for result
-    drinks_list = {}
+    drinks_list = []
     for drink in drink3:
-        drinks_list[drink.id] = {'id':drink.id,'title':drink.title,'recipe':drink.recipe}
-        #drinks_list.append(drink.short())
+        # drinks_list[drink.id] = {'id':drink.id,'title':drink.title,'recipe':drink.recipe}
+        # drinks_list[drink.id] = drink.short()
+        drinks_list.append(drink.short())
     print(drinks_list)
     return jsonify({
         'success' : True,
