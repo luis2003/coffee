@@ -3,7 +3,7 @@ from flask import request, _request_ctx_stack, abort
 from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
-
+import logging
 
 AUTH0_DOMAIN = 'dev-cdaq-due.us.auth0.com'
 ALGORITHMS = ['RS256']
@@ -175,6 +175,8 @@ def requires_auth(permission=''):
                 check_permissions(permission, payload)
 
             except Exception as e:
+                logging.exception('An exception occurred while in wrapper internal function')
+                # print(repr(e))
                 abort(401)
 
             return f(payload, *args, **kwargs)
