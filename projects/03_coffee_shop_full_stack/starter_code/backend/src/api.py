@@ -43,7 +43,7 @@ def get_drinks():
 
 
 '''
-@TODO implement endpoint
+@TODO (DONE) implement endpoint
     GET /drinks-detail
         it should require the 'get:drinks-detail' permission
         it should contain the drink.long() data representation
@@ -74,6 +74,12 @@ def get_drinks_detail(jwt):
     returns status code 200 and json {"success": True, "drinks": drink} where drink an array containing only the newly created drink
         or appropriate status code indicating reason for failure
 '''
+
+
+@app.route('/drinks', methods=['POST'])
+@requires_auth('post:drinks')
+def post_drinks(jwt):
+    return 'Not implemented'
 
 
 '''
@@ -127,10 +133,28 @@ def unprocessable(error):
 
 '''
 
+
+@app.errorhandler(401)
+def unauthorized(error):
+    return jsonify({
+        "success": False,
+        "error": 401,
+        "message": "unauthorized"
+    }), 401
+
 '''
-@TODO implement error handler for 404
+@TODO (DONE) implement error handler for 404
     error handler should conform to general task above
 '''
+
+
+@app.errorhandler(404)
+def notfound(error):
+    return jsonify({
+        "success": False,
+        "error": 404,
+        "message": "resource not found"
+    }), 404
 
 
 '''
