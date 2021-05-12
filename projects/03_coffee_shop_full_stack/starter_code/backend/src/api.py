@@ -37,6 +37,8 @@ def get_drinks():
     drinks_list = []
     for drink in all_drinks:
         drinks_list.append(drink.short())
+    if len(drinks_list) == 0:
+        abort(404)
     return jsonify({
         'success': True,
         'drinks': drinks_list
@@ -60,6 +62,8 @@ def get_drinks_detail(jwt):
     drinks_list = []
     for drink in all_drinks:
         drinks_list.append(drink.long())
+    if len(drinks_list) == 0:
+        abort(404)
     return jsonify({
         'success': True,
         'drinks': drinks_list
@@ -67,7 +71,7 @@ def get_drinks_detail(jwt):
 
 
 '''
-@TODO implement endpoint
+@TODO (DONE) implement endpoint
     POST /drinks
         it should create a new row in the drinks table
         it should require the 'post:drinks' permission
@@ -103,6 +107,11 @@ def post_drink(jwt):
         or appropriate status code indicating reason for failure
 '''
 
+
+@app.route('/drinks/<int:drink_id>', methods=['PATCH'])
+@requires_auth('patch:drinks')
+def patch_drink(jwt, drink_id):
+    return 'Not Implemented'
 
 '''
 @TODO implement endpoint
