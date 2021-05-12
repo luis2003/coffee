@@ -18,7 +18,7 @@ CORS(app)
 !! NOTE THIS MUST BE UNCOMMENTED ON FIRST RUN
 !! Running this funciton will add one
 '''
-# db_drop_and_create_all()
+db_drop_and_create_all()
 
 # ROUTES
 '''
@@ -86,10 +86,9 @@ def post_drink(jwt):
         Drink.insert(created_drink)
     except Exception as e:
         logging.exception('An exception occurred while inserting drink')
-        abort(404)
+        abort(422)
     return jsonify({"success": True,
-                    "drinks": [{"id": drink['id'],
-                                "title": drink['title'],
+                    "drinks": [{"title": drink['title'],
                                 "recipe": drink['recipe']}]})
 
 '''
