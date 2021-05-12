@@ -2,6 +2,7 @@ import os
 from flask import Flask, request, jsonify, abort
 from sqlalchemy import exc
 import json
+import logging
 from flask_cors import CORS
 
 from .database.models import db_drop_and_create_all, setup_db, Drink
@@ -78,9 +79,18 @@ def get_drinks_detail(jwt):
 
 @app.route('/drinks', methods=['POST'])
 @requires_auth('post:drinks')
-def post_drinks(jwt):
-    return 'Not implemented'
-
+def post_drink(jwt):
+    drink = request.get_json()
+    created_drink = Drink(title=drink['title'], recipe=json.dumps(drink['recipe']))
+    try:
+        Drink.insert(created_drink)
+    except Exception as e:
+        logging.exception('An exception occurred while inserting drink')
+        abort(404)
+    return jsonify({"success": True,
+                    "drinks": [{"id": drink['id'],
+                                "title": drink['title'],
+                                "recipe": drink['recipe']}]})
 
 '''
 @TODO implement endpoint
