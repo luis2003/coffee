@@ -96,7 +96,7 @@ def post_drink(jwt):
                                 "recipe": drink['recipe']}]})
 
 '''
-@TODO implement endpoint
+@TODO (STARTED) implement endpoint
     PATCH /drinks/<id>
         where <id> is the existing model id
         it should respond with a 404 error if <id> is not found
@@ -111,10 +111,14 @@ def post_drink(jwt):
 @app.route('/drinks/<int:drink_id>', methods=['PATCH'])
 @requires_auth('patch:drinks')
 def patch_drink(jwt, drink_id):
+    selection = Drink.query.filter(Drink.id == drink_id).all()
+    if len(selection) == 0:
+        abort(404)
+    # missing updating the drink
     return 'Not Implemented'
 
 '''
-@TODO implement endpoint
+@TODO (DONE) implement endpoint
     DELETE /drinks/<id>
         where <id> is the existing model id
         it should respond with a 404 error if <id> is not found
@@ -124,6 +128,16 @@ def patch_drink(jwt, drink_id):
         or appropriate status code indicating reason for failure
 '''
 
+
+@app.route('/drinks/<int:drink_id>', methods=['DELETE'])
+@requires_auth('delete:drinks')
+def delete_drink(jwt, drink_id):
+    selection = Drink.query.filter(Drink.id == drink_id).all()
+    if len(selection) == 0:
+        abort(404)
+    selection[0].delete()
+    return jsonify({"success": True,
+                    "deleted": drink_id})
 
 # Error Handling
 '''
@@ -150,6 +164,15 @@ def unprocessable(error):
                     }), 404
 
 '''
+
+
+@app.errorhandler(405)
+def method_not_allowed(error):
+    return jsonify({
+        "success": False,
+        "error": 405,
+        "message": "Method Not Allowed"
+    }), 405
 
 
 @app.errorhandler(401)
