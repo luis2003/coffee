@@ -73,13 +73,13 @@ The `--reload` flag will detect file changes and restart the server automaticall
    - Register 2 users - assign the Barista role to one and Manager role to the other. *DONE*
    - Sign into each account and make note of the JWT. *DONE*
    - Import the postman collection `./starter_code/backend/udacity-fsnd-udaspicelatte.postman_collection.json` *DONE*
-   - Right-clicking the collection folder for barista and manager, navigate to the authorization tab, and including the JWT in the token field (you should have noted these JWTs).
-   - Run the collection and correct any errors.
-   - Export the collection overwriting the one we've included so that we have your proper JWTs during review!
+   - Right-clicking the collection folder for barista and manager, navigate to the authorization tab, and including the JWT in the token field (you should have noted these JWTs). *DONE*
+   - Run the collection and correct any errors. *DONE*
+   - Export the collection overwriting the one we've included so that we have your proper JWTs during review! *DONE*
 
 ### Implement The Server
 
 There are `@TODO` comments throughout the `./backend/src`. We recommend tackling the files in order and from top to bottom:
 
-1. `./src/auth/auth.py`
-2. `./src/api.py`
+1. `./src/auth/auth.py` *DONE*
+2. `./src/api.py` *DONE*
