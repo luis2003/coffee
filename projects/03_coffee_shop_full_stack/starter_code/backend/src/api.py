@@ -111,11 +111,29 @@ def post_drink(jwt):
 @app.route('/drinks/<int:drink_id>', methods=['PATCH'])
 @requires_auth('patch:drinks')
 def patch_drink(jwt, drink_id):
-    selection = Drink.query.filter(Drink.id == drink_id).all()
-    if len(selection) == 0:
-        abort(404)
-    # missing updating the drink
-    return 'Not Implemented'
+    body = request.get_json()
+
+    try:
+        drink_to_patch = Drink.query.filter(Drink.id == drink_id).one_or_none()
+        if drink_to_patch is None:
+            abort(404)
+
+        if 'title' in body:
+            drink_to_patch.title = str(body.get('title'))
+
+        if 'recipe' in body:
+            drink_to_patch.recipe = body.get('recipe')
+
+        drink_to_patch.update()
+        updated_drink = Drink.query.filter(Drink.id == drink_id).one_or_none()
+
+        return jsonify({"success": True,
+                        "drinks": updated_drink.long()})
+
+    except Exception as E:
+        logging.exception('An exception occurred while updating drink')
+        abort(400)
+
 
 '''
 @TODO (DONE) implement endpoint
@@ -183,6 +201,14 @@ def unauthorized(error):
         "message": "unauthorized"
     }), 401
 
+
+@app.errorhandler(400)
+def bad_request(error):
+    return jsonify({
+        "success": False,
+        "error": 400,
+        "message": "Bad Request"
+    }), 400
 '''
 @TODO (DONE) implement error handler for 404
     error handler should conform to general task above
