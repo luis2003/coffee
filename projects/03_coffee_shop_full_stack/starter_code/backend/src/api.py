@@ -128,7 +128,7 @@ def patch_drink(jwt, drink_id):
         updated_drink = Drink.query.filter(Drink.id == drink_id).one_or_none()
 
         return jsonify({"success": True,
-                        "drinks": updated_drink.long()})
+                        "drinks": [updated_drink.long()]})
 
     except Exception as E:
         logging.exception('An exception occurred while updating drink')
