@@ -96,7 +96,7 @@ def post_drink(jwt):
                                 "recipe": drink['recipe']}]})
 
 '''
-@TODO (STARTED) implement endpoint
+@TODO (DONE) implement endpoint
     PATCH /drinks/<id>
         where <id> is the existing model id
         it should respond with a 404 error if <id> is not found
@@ -173,7 +173,7 @@ def unprocessable(error):
 
 
 '''
-@TODO implement error handlers using the @app.errorhandler(error) decorator
+@TODO (DONE) implement error handlers using the @app.errorhandler(error) decorator
     each error handler should return (with approprate messages):
              jsonify({
                     "success": False,
@@ -223,8 +223,16 @@ def notfound(error):
         "message": "resource not found"
     }), 404
 
-
 '''
-@TODO implement error handler for AuthError
+@TODO (DONE) implement error handler for AuthError
     error handler should conform to general task above
 '''
+
+
+@app.errorhandler(AuthError)
+def autherror_handler(ex):
+    response = jsonify(ex.error)
+    response.status_code = ex.status_code
+    return response
+
+
